@@ -3,7 +3,7 @@ package helloworld;
  *
  * @author nabila
  */
-public class Test {
+public class StringSubstring {
     public static void main(String[] args){
         String strSub_1 = "Hello World".substring(6);
         String strSub_2 = "Hello World".substring(1, 6);
