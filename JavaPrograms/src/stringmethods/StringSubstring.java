@@ -1,4 +1,5 @@
-package helloworld;
+package stringmethods;
+
 /**
  *
  * @author nabila
