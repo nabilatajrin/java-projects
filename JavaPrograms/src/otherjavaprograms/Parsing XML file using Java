@@ -1,0 +1,205 @@
+XML FILE:
+
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<config>
+    <mainServerHostname>MainServer</mainServerHostname>
+    <callpushermodule>
+        <dafaults>
+          <sipPerInstance>No</sipPerInstance> 
+          <startTime>08:00:00</startTime>
+          <endTime>11:59:59</endTime>
+          <MAX_Instances>10</MAX_Instances>
+          <MaxLeaseTime>210</MaxLeaseTime>
+
+          <voice>
+            <ac1>
+              <ServerAddress>111.11.11.111</ServerAddress>
+              <SIPUser1>111.11.11.111</SIPUser1>
+              <SIPpass1>111.11.11.111</SIPpass1> 
+            </ac1>
+          </voice>
+
+          <DB>
+            <Address>111.11.11.1</Address>
+            <Port>3333</Port>
+            <user>apprepaid</user>
+            <pass>apprepaid</pass>
+            <DBName>aponjon_pepaid_service</DBName>
+          </DB>
+
+        </dafaults>
+    </callpushermodule>
+</config>
+
+-------------------------------------------------------------------------------------------------
+
+JAVA PROGRAM:
+
+package parsing.xml.file;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+import java.io.File;
+import java.io.IOException;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
+import org.w3c.dom.DOMException;
+
+public class ParsingXMLFile {
+    public static void main(String argv[]) throws SAXException, IOException, ParserConfigurationException {    
+        try {
+            File fXmlFile = new File("conf/default_conf.xml ");
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(fXmlFile);
+            doc.getDocumentElement().normalize();
+            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+            NodeList nList = doc.getElementsByTagName("dafaults");
+            System.out.println("----------------------------");
+        
+            String DBServerIP = null;
+            String DBUserName = null;
+            String DBPassword = null;
+            String DBDatabase = null;
+            String DBPort = null;       
+
+            for (int temp = 0; temp < nList.getLength(); temp++) {
+                Node nNode = nList.item(temp);
+                System.out.println("\nCurrent Element :" + nNode.getNodeName());
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) nNode;
+                    System.out.println("sipPerInstance : " + eElement.getElementsByTagName("sipPerInstance").item(0).getTextContent());
+                    System.out.println("startTime : " + eElement.getElementsByTagName("startTime").item(0).getTextContent());
+                    System.out.println("endTime : " + eElement.getElementsByTagName("endTime").item(0).getTextContent());
+                    System.out.println("MAX_Instances : " + eElement.getElementsByTagName("MAX_Instances").item(0).getTextContent());
+                    System.out.println("MaxLeaseTime : " + eElement.getElementsByTagName("MaxLeaseTime").item(0).getTextContent());
+                }
+            }                           
+
+            try {
+                File fXmlFile2 = new File("conf/default_conf.xml ");
+                DocumentBuilderFactory dbFactory2 = DocumentBuilderFactory.newInstance();
+                DocumentBuilder dBuilder2 = dbFactory2.newDocumentBuilder();
+                Document doc2 = dBuilder2.parse(fXmlFile);
+                doc.getDocumentElement().normalize();
+                System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+                NodeList nList2 = doc.getElementsByTagName("voice");
+                System.out.println("----------------------------");
+                
+                for (int temp = 0; temp < nList2.getLength(); temp++) {
+                    Node nNode = nList2.item(temp);
+                    System.out.println("\nCurrent Element :" + nNode.getNodeName());
+                    if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                        Element eElement = (Element) nNode;
+                            
+                        try {
+                            File fXmlFile3 = new File("conf/default_conf.xml ");
+                            DocumentBuilderFactory dbFactory3 = DocumentBuilderFactory.newInstance();
+                            DocumentBuilder dBuilder3 = dbFactory3.newDocumentBuilder();
+                            Document doc3 = dBuilder3.parse(fXmlFile);
+                            doc.getDocumentElement().normalize();
+                            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+                            NodeList nList3 = doc.getElementsByTagName("ac1");
+                            System.out.println("----------------------------");
+
+                            String ServerAddress = null;
+                            String SIPUser1 = null;
+                            String SIPpass1 = null;      
+
+                            for (int temp2 = 0; temp2 < nList3.getLength(); temp2++) {
+                                Node nNode2 = nList3.item(temp2);
+                                System.out.println("\nCurrent Element :" + nNode2.getNodeName());
+                                if (nNode2.getNodeType() == Node.ELEMENT_NODE) {
+                                    Element eElement2 = (Element) nNode;
+                                    System.out.println("ServerAddress : " + eElement2.getElementsByTagName("ServerAddress").item(0).getTextContent());
+                                    System.out.println("SIPUser1 : " + eElement2.getElementsByTagName("SIPUser1").item(0).getTextContent());
+                                    System.out.println("SIPpass1 : " + eElement2.getElementsByTagName("SIPpass1").item(0).getTextContent());
+                                }
+                            }
+                        }
+                        catch(IOException | ParserConfigurationException | DOMException | SAXException e) { 
+                            System.out.println(e);                               
+                        } 
+                    } 
+                }
+            }
+            catch(IOException | ParserConfigurationException | SAXException e) { 
+                System.out.println(e);                               
+            }
+            try {
+                File fXmlFile2 = new File("conf/default_conf.xml ");
+                DocumentBuilderFactory dbFactory2 = DocumentBuilderFactory.newInstance();
+                DocumentBuilder dBuilder2 = dbFactory2.newDocumentBuilder();
+                Document doc2 = dBuilder2.parse(fXmlFile);
+                doc.getDocumentElement().normalize();
+                System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+                NodeList nList2 = doc.getElementsByTagName("DB");
+                System.out.println("----------------------------");
+                
+                String Address = null;
+                String Port = null;
+                String user = null; 
+                String pass = null;
+                String DBName = null;
+                
+                for (int temp = 0; temp < nList2.getLength(); temp++) {
+                    Node nNode = nList2.item(temp);
+                    System.out.println("\nCurrent Element :" + nNode.getNodeName());
+                    if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                        Element eElement = (Element) nNode;
+                        System.out.println("Address : " + eElement.getElementsByTagName("Address").item(0).getTextContent());
+                        System.out.println("Port : " + eElement.getElementsByTagName("Port").item(0).getTextContent());
+                        System.out.println("user : " + eElement.getElementsByTagName("user").item(0).getTextContent());
+                        System.out.println("pass : " + eElement.getElementsByTagName("pass").item(0).getTextContent());
+                        System.out.println("DBName : " + eElement.getElementsByTagName("DBName").item(0).getTextContent());
+                    }
+                }
+            }
+            catch(IOException | ParserConfigurationException | DOMException | SAXException e) { 
+                System.out.println(e);                               
+            }        
+        }
+        catch(IOException | ParserConfigurationException | DOMException | SAXException e) { 
+            System.out.println(e);                               
+        } 
+    }
+}
+
+----------------------------------------------------------------------
+OUTPUT:
+
+run:
+Root element :config
+----------------------------
+
+Current Element :dafaults
+sipPerInstance : No
+startTime : 08:00:00
+endTime : 11:59:59
+MAX_Instances : 10
+MaxLeaseTime : 210
+Root element :config
+----------------------------
+
+Current Element :voice
+Root element :config
+----------------------------
+
+Current Element :ac1
+ServerAddress : 111.11.11.111
+SIPUser1 : 111.11.11.111
+SIPpass1 : 111.11.11.111
+Root element :config
+----------------------------
+
+Current Element :DB
+Address : 111.11.11.1
+Port : 3333
+user : apprepaid
+pass : apprepaid
+DBName : aponjon_pepaid_service
+BUILD SUCCESSFUL (total time: 0 seconds)

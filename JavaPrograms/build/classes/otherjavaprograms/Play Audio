@@ -1,0 +1,18 @@
+package javaaudioplayer;
+
+import java.io.*;
+import sun.audio.*;
+
+public class JavaAudioPlayer {
+
+    public static void main(String[] args) throws Exception {
+        // open the sound file as a Java input stream
+        String toneFile = "C:\\Users\\BRISHTY-PC\\Desktop\\NetBeans\\JavaPlayAudio\\tone.WAV";
+        InputStream in = new FileInputStream(toneFile);
+        // create an audiostream from the inputstream
+        AudioStream audioStream = new AudioStream(in);
+        // play the audio clip with the audioplayer class
+        AudioPlayer.player.start(audioStream);
+        //use scan conmmand take start, pause, stop strings, and follow the command.
+    }    
+}

@@ -1,0 +1,40 @@
+//---------------------This program separates first name, middle name, and last name from the inputted full name---------------------
+
+package name.separator;
+
+import java.util.Scanner;
+
+public class NameSeparator {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);  
+        
+        System.out.println("Enter your name");  
+        String name = sc.next();
+        name += sc.nextLine();
+        
+        System.out.println(""); 
+        System.out.println("Full Name: " + name); 
+
+        int start = name.indexOf(' ');
+        int end = name.lastIndexOf(' ');
+
+        String firstName = "";
+        String middleName = "";
+        String lastName = "";
+
+        if (start >= 0) {
+            firstName = name.substring(0, start);
+            if (end > start)
+                middleName = name.substring(start + 1, end);
+            lastName = name.substring(end + 1, name.length());
+        }    
+
+        System.out.println("First Name: " + firstName);
+        System.out.println("Middle Name: " + middleName);
+        System.out.println("Last Name: " + lastName);
+    }
+}
+
+

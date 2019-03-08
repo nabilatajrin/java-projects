@@ -1,0 +1,50 @@
+package test1;
+
+import java.io.File;
+import java.util.Scanner;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.Line;
+
+public class Test1 {
+
+    public static void main(String[] args) {
+            File soundFile = new File("C:\\Users\\BRISHTY-PC\\Desktop\\NetBeans\\JavaAudioPlayer\\tone.WAV");  
+            Clip clip = null;
+            try {
+                    Line.Info linfo = new Line.Info(Clip.class);
+                    Line line = AudioSystem.getLine(linfo);
+                    clip = (Clip) line;
+                    AudioInputStream ais = AudioSystem.getAudioInputStream(soundFile);
+                    clip.open(ais);
+            } catch (Exception e) {
+                    e.printStackTrace();
+            } 
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("\n 'START = 1'||'PAUSE|STOP = 2'||'RESUME = 22'||'REPLAY = 11'||'EXIT = 0'.\n");
+        int condition = scanner.nextInt();
+
+        while(condition != 0){
+            if(condition == 1){
+                    clip.start(); // Press 1 for Start
+                    System.out.print("\n ~STARTED~ \n");
+            }else if (condition == 2){
+                    clip.stop(); // Press 2 for stop or pause
+                    System.out.print("\n PAUSED/STOPPED \n");
+            }else if (condition == 22){
+                    clip.start(); // Press 22 for resume
+                    System.out.print("\n RESUMED \n");
+            }else if (condition == 11){
+                    clip.setFramePosition(0); // Press 11 for replay
+                    clip.start();
+                    System.out.print("\n REPLAYING... \n");
+            }System.out.print("\n 'START = 1'||'PAUSE|STOP = 2'||'RESUME = 22'||'REPLAY = 11'||'EXIT = 0'.\n");
+            condition = scanner.nextInt();
+        }
+        System.out.print("\n 'START = 1'||'PAUSE|STOP = 2'||'RESUME = 22'||'REPLAY = 11'||'EXIT = 0'.\n");
+        System.out.print("\n EXITING!! \n");
+    }    
+}

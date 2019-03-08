@@ -1,0 +1,34 @@
+import java.sql.*;
+import org.mariadb.jdbc.*;
+
+public class data {
+    public static void main(String[] args) throws SQLException {
+        try {              
+            MariaDbDataSource ds = new MariaDbDataSource();
+            //ds.setServerName("111.11.11.1");
+            ds.setUrl("jdbc:mariadb://111.11.11.1:6606/xyz_service");
+            ds.setDatabaseName("xyz_service");
+            ds.setPort(6606);
+            ds.setUser("xyz_service");
+            ds.setPassword("test");
+
+            try (Connection con = ds.getConnection()) {
+                Statement st = con.createStatement();
+                ResultSet rs;
+                rs = st.executeQuery("select * from dialect");
+                int columnsNumber = rs.getMetaData().getColumnCount();
+                System.out.println("Program Started...");
+                while(rs.next()) {                   
+                    System.out.println();                    
+                    for (int i = 1; i <= columnsNumber; i++){ 
+                        if (i > 1) System.out.print(", ");
+                        System.out.print(rs.getString(i));                        
+                    }
+                }
+                System.out.println("");
+            }            
+        }  catch(SQLException e) { 
+		System.out.println(e);
+	}
+}    
+}

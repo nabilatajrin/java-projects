@@ -1,0 +1,99 @@
+XML File:
+
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<SMSGW>
+	<IP>11.111.11.11</IP>
+	<Port>11111</Port>
+	<User>xuser</User>
+	<Password>bbbbb</Password>
+	<dlrIP>11.111.11.11</dlrIP>
+	<dlrPort>55</dlrPort>
+	<dlrMask>22</dlrMask>
+</SMSGW>
+
+-----------------------------------------------------------------------------------------------------
+
+Java Program:
+____________
+
+package url.encoder;
+
+import java.io.File;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+public class URLEncodedString {
+
+    public static void main(String[] args) {
+        
+        //Declared, and initialized all variables here
+        String sourceNumber = null;
+        String destinationNumber = null;
+        String messageText = null;
+        String msgID = null;
+
+        String ipAddress = null;
+        String port = null;
+        String userName = null;
+        String password = null;
+
+        String dlrIP = null;
+        String dlrPort = null;
+        String dlrMask = null;
+
+        String baseurl = null;
+        String dlrurl = null;
+        String finalurl = null;
+        
+        //XML Parser
+        try {
+            File xmlFile = new File("./smsgw.xml");
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(xmlFile);
+            doc.getDocumentElement().normalize();
+            
+            NodeList dafaultsList = doc.getElementsByTagName("SMSGW");
+            for (int temp = 0; temp < dafaultsList.getLength(); temp++) {
+                Node nNode = dafaultsList.item(temp);
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+
+                    Element eElement = (Element) nNode;
+                    
+                    ipAddress = eElement.getElementsByTagName("IP").item(temp).getTextContent();
+                    port = eElement.getElementsByTagName("Port").item(temp).getTextContent();
+                    userName = eElement.getElementsByTagName("User").item(temp).getTextContent();
+                    password = eElement.getElementsByTagName("Password").item(temp).getTextContent();
+                    dlrIP = eElement.getElementsByTagName("dlrIP").item(temp).getTextContent();
+                    dlrPort = eElement.getElementsByTagName("dlrPort").item(temp).getTextContent();
+                    dlrMask = eElement.getElementsByTagName("dlrMask").item(temp).getTextContent();                         
+                }
+            }
+            
+            //Setting 4 parameters to send SMS
+            sourceNumber = args[0];
+            destinationNumber = args[1];
+            messageText = args[2];
+            msgID = args[3];
+            
+            messageText = java.net.URLEncoder.encode(messageText, "UTF-8");
+            
+            //Creating the Url
+            baseurl = "http://" + ipAddress + ":" + port + "/cgi-bin/sendsms?user="+ userName +"&pass=" + password + "&from=" + sourceNumber + "&to=" + destinationNumber + "&text=" + messageText + "&dlr-mask=" + dlrMask + "&dlr-url=" ;
+            dlrurl = "http://" + dlrIP + ":" + dlrPort + "/sms/dlr/deliveryreport.php?smsid=" + msgID + "&type=%d&receiver=%p&reply=%A&time=%t&usr=%n&message=%b&dlrmask=31&text=%a&dlrvalue=%d&billing=%B";
+                       
+            dlrurl = java.net.URLEncoder.encode(dlrurl,"UTF-8");         
+                        
+            finalurl = baseurl + dlrurl; 
+            
+            System.out.println(finalurl);
+        }    
+        catch (Exception e) {
+            e.printStackTrace();                                
+        }       
+    }  
+}

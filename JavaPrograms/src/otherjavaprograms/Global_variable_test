@@ -1,0 +1,25 @@
+import java.time.LocalDate;
+
+public class Global_var_test {
+    
+    int y;
+    
+    public void callAge() {
+        int age = 0; //Because, compilation error if wasn't initialized
+        age = age + 7;
+        y = y + 3;
+        System.out.println("Age is: " + age);       
+    }
+    public static void main(String[] args) {
+        Global_var_test test = new Global_var_test();
+        test.callAge();
+    }
+}
+
+
+#######
+Output:
+run:
+Age is: 7
+BUILD SUCCESSFUL (total time: 0 seconds)
+

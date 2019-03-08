@@ -1,0 +1,41 @@
+package db_test_2;
+
+import java.sql.*;
+import org.mariadb.jdbc.*;
+
+public class Db_test_2 {
+    public static void main(String[] args) throws SQLException {
+        try {             
+            MariaDbDataSource ds = new MariaDbDataSource();
+            //ds.setServerName("111.11.11.1");
+            ds.setUrl("jdbc:mariadb://111.11.11.1:3333/brishty");
+            ds.setDatabaseName("brishty");
+            ds.setPort(3333);
+            ds.setUser("brishty");
+            ds.setPassword("brishty");
+            //ds.setTable("testtable");
+
+            try (Connection con = ds.getConnection()) {
+                Statement st = con.createStatement();
+                ResultSet rs;
+                rs = st.executeQuery("select * from brishty.testtable");
+                int columnsNumber = rs.getMetaData().getColumnCount();
+                String columnName[] = new String[columnsNumber];                
+                System.out.println("Program Started...");
+                
+                while(rs.next()) {                   
+                    System.out.println();                                        
+                    for (int i = 1; i <= columnsNumber; i++){                         
+                        if (i > 1) System.out.print(", ");
+                        columnName[i-1] = rs.getMetaData().getColumnLabel(i); //to get column label
+                        System.out.print(columnName[i-1] + ": ");
+                        System.out.print(rs.getString(i)); //to get column detail                        
+                    }                    
+                }
+                System.out.println("");
+            }            
+        }  catch(SQLException e) { 
+		System.out.println(e);
+	}
+    }    
+}

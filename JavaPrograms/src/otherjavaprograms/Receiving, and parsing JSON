@@ -1,0 +1,116 @@
+//Java HttpURLConnection
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import javax.net.ssl.HttpsURLConnection;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.Scanner;
+import org.json.*;
+import java.io.StringReader;
+import java.util.Iterator;
+import jdk.nashorn.internal.parser.JSONParser;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class call_API_with_post_method {
+
+	private static JSONObject jObject = null;
+
+  public static void main(String[] args) throws Exception {
+
+		call_API_with_post_method http = new call_API_with_post_method();
+
+		System.out.println("\nTesting - Send Http POST request");
+		http.sendPost();
+	}
+  
+	// HTTP POST request	
+	private void sendPost() throws Exception {
+
+		//sample input
+		String msisdn_1 = "01715026487";
+		String msg_1 = "pn";
+		String received_1 = "2017-03-11 11:00:00";
+		
+		//calling to API
+		String url = "http://api.xyz.com.bd/sms-request/send";
+		URL obj = new URL(url);
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+		//encode
+		String msisdn = URLEncoder.encode(msisdn_1, "UTF-8");
+		String msg = URLEncoder.encode(msg_1, "UTF-8");
+		String received = URLEncoder.encode(received_1, "UTF-8");
+
+		//add reuqest header
+		con.setRequestMethod("POST");
+
+		//con.setRequestProperty("User-Agent", USER_AGENT);
+		con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+
+		String query_en = "msisdn="+msisdn+"&msg="+msg+"&received="+received+"&_key=16111";	
+		
+		// Send encoded post request
+		con.setDoOutput(true);
+		DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+		wr.writeBytes(query_en);
+		wr.flush();
+		wr.close();
+
+		int responseCode = con.getResponseCode();
+		System.out.println("\nSending 'POST' request to URL : " + url);
+		System.out.println("Post parameters : " + query_en);
+		System.out.println("Response Code : " + responseCode);
+
+		BufferedReader in = new BufferedReader(
+		        new InputStreamReader(con.getInputStream()));
+		String inputLine;
+		StringBuffer response = new StringBuffer();
+
+		while ((inputLine = in.readLine()) != null) {
+			response.append(inputLine);
+		}
+		in.close();
+
+		String output = response.toString();
+		System.out.println(output);
+		JSONObject obj_output = new JSONObject(output);
+
+		System.out.println("\n");		
+
+		Boolean success = obj_output.getBoolean("success");
+		System.out.println("success: " + success);
+
+		//call message from string output
+    String message = obj_output.getString("message");
+		System.out.println("message: " + message);
+
+		Long request_id = obj_output.getLong("request_id");
+		System.out.println("request_id: " + request_id);
+
+		//ternary operator		
+		String send_errors;
+		send_errors = obj_output.isNull("send_errors") ? null : obj_output.optString("send_errors");
+		System.out.println("send_errors: " + send_errors);
+
+		//test
+		JSONObject params1 = obj_output.getJSONObject("params");
+		System.out.println("###params: " + params1);
+
+		String params = obj_output.isNull("params") ? null : obj_output.optString("params");
+		System.out.println("params: " + params);
+
+		String data_errors = obj_output.isNull("data_errors") ? null : obj_output.optString("data_errors");
+		System.out.println("data_errors: " + data_errors);
+
+		System.out.println("\n");	
+	} 
+}

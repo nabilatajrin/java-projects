@@ -1,0 +1,114 @@
+XML FILE:
+
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<config>
+    <mainServerHostname>MainServer</mainServerHostname>
+    <callpushermodule>
+        <dafaults>
+        	<SIPServerIP>111.11.11.111</SIPServerIP>
+        	<DBServerIP>111.11.11.1</DBServerIP>
+		<DBUserName>brishty</DBUserName>
+	       	<DBPassword>brishty</DBPassword>
+	       	<DBDatabase>brishty</DBDatabase>
+	       	<DBPort>3333</DBPort>
+        	<MAX_Instances>10</MAX_Instances>
+        	<MaxLeaseTime>233</MaxLeaseTime>
+        </dafaults>
+    </callpushermodule>
+</config>
+
+-------------------------------------------------------------------------------------------------
+
+JAVA PROGRAM:
+
+package write.data.from.table1.to.table2;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+import java.io.File;
+import java.io.IOException;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
+import java.sql.*;
+import org.mariadb.jdbc.*;
+
+public class WriteDataFromTable1ToTable2 {
+    public static void main(String argv[]) throws SAXException, IOException, ParserConfigurationException {    
+        try {
+            File fXmlFile = new File("conf/default_conf.xml ");
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(fXmlFile);
+            doc.getDocumentElement().normalize();
+            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+            NodeList nList = doc.getElementsByTagName("dafaults");
+            System.out.println("----------------------------");
+        
+            //String SIPServerIP;
+            String DBServerIP = null;
+            String DBUserName = null;
+            String DBPassword = null;
+            String DBDatabase = null;
+            String DBPort = null;       
+
+            for (int temp = 0; temp < nList.getLength(); temp++) {
+                Node nNode = nList.item(temp);
+                System.out.println("\nCurrent Element :" + nNode.getNodeName());
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) nNode;
+                    System.out.println("SIPServerIP : " + eElement.getElementsByTagName("SIPServerIP").item(0).getTextContent());
+                    DBServerIP = eElement.getElementsByTagName("DBServerIP").item(0).getTextContent();
+                    DBUserName = eElement.getElementsByTagName("DBUserName").item(0).getTextContent();
+                    DBPassword = eElement.getElementsByTagName("DBPassword").item(0).getTextContent();
+                    DBDatabase = eElement.getElementsByTagName("DBDatabase").item(0).getTextContent();
+                    DBPort = eElement.getElementsByTagName("DBPort").item(0).getTextContent();
+                    System.out.println("DBPort : " + DBPort);
+                    System.out.println("ServerIP : " + DBServerIP);
+                }
+            }                           
+            MariaDbDataSource ds = new MariaDbDataSource();
+           
+            System.out.println("output : jdbc:mariadb://"+ DBServerIP + ":" + DBPort + "/" + DBDatabase);
+            ds.setUrl("jdbc:mariadb://" + DBServerIP + ":" + DBPort + "/" + DBDatabase);
+            ds.setServerName(DBServerIP);
+            ds.setDatabaseName(DBDatabase);
+            ds.setPort(Integer.parseInt(DBPort));
+            ds.setUser(DBUserName);
+            ds.setPassword(DBPassword);
+
+            try (Connection con = ds.getConnection()) {
+                Statement st = con.createStatement();
+                ResultSet rs;
+                
+                st.executeQuery("INSERT INTO "+DBDatabase+".testtable_2 select * from "+DBDatabase+".testtable");
+                
+                rs = st.executeQuery("select * from "+DBDatabase+".testtable_2"); //inserting data from one table to another
+                
+                //rs = st.executeQuery("select * from brishty.testtable");
+                int columnsNumber = rs.getMetaData().getColumnCount();
+                String columnName[] = new String[columnsNumber];                
+                System.out.println("Program Started...");
+                
+                while(rs.next()) {                   
+                    System.out.println();                          
+                    for (int i = 1; i <= columnsNumber; i++){                         
+                        if (i > 1) System.out.print(", ");
+                        columnName[i-1] = rs.getMetaData().getColumnLabel(i); //to get column label
+                        System.out.print(columnName[i-1] + ": ");
+                        System.out.print(rs.getString(i)); //to get column detail                                              
+                    }                   
+                }
+                System.out.println("");
+            }           
+        }  catch(SQLException e) { 
+            System.out.println(e);
+        }    
+        catch (Exception e) {
+            e.printStackTrace();                                
+        }
+    }
+}
