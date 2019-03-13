@@ -19,7 +19,7 @@ public class SplitMethod {
         String[] splitNames = names.split(", ");
         System.out.println(Arrays.toString(splitNames));
         /*[Peter, John, Andy, David]*/
-        /*should be --> {"Peter", "John", "Andy", "David"}*/
+        /*should be --> {"Peter", "John", "Andy", "David"--not clear*/
     }
     
 }
