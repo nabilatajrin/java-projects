@@ -9,6 +9,13 @@ public class PrimitiveValues {
         b = 126;
         System.out.println("byte b = " + b);
         
+        if(b > Byte.MAX_VALUE){
+            ++b;
+            System.out.println("byte b if pass the condition = " + b);
+        }else{
+            System.out.println("byte b if didn't pass the condition = " + b);
+        }
+        
         short sh = 1;
         System.out.println("\nshort sh = " + sh);
         System.out.println("Max value of short: " + Short.MAX_VALUE);
