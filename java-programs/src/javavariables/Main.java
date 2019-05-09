@@ -16,5 +16,9 @@ public class Main {
         
         System.out.println("my car's license plate: " + myCar.licensePlate);
         System.out.println("sally's car's license plate: " + sallyCar.licensePlate);
+        
+        System.out.println("New paint color: " + myCar.paintColor);
+        myCar.changePaintColor(Color.red);
+        System.out.println("New paint color: " + myCar.paintColor);
     }
 }

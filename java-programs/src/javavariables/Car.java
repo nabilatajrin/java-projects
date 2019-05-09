@@ -17,4 +17,8 @@ public class Car {
         this.paintColor = inputPaintColor;
         this.areTailingWorking = inputAreTailingWorking;
     }
+    
+    public void changePaintColor(Color newPaintColor){
+        this.paintColor = newPaintColor;
+    }
 }
