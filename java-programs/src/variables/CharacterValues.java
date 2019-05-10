@@ -9,5 +9,19 @@ public class CharacterValues {
         System.out.println("nine = " + nine);
         char dollar = '\u0024'; //unicode
         System.out.println("dollar = " + dollar);
+        
+        char a = 'a';
+        char upper = Character.toUpperCase(a);
+        System.out.println("upper = " + upper);
+        
+        char[] chars = {'h','e','y'};
+        System.out.println("chars = " + new String(chars));
+        //or
+        String s = new String(chars);
+        System.out.println(s);
+        
+        char[] char2 = s.toCharArray();
+        System.out.println(char2);
+        
     }
 }
