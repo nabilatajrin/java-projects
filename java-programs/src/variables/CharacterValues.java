@@ -19,7 +19,7 @@ public class CharacterValues {
         //or
         String s = new String(chars);
         System.out.println(s);
-        
+        //or
         char[] char2 = s.toCharArray();
         System.out.println(char2);
         
