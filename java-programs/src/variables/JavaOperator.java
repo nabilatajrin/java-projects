@@ -6,5 +6,12 @@ public class JavaOperator {
         
         System.out.println("Postfix: " + intValue++);
         System.out.println("Prefix: " + ++intValue);
+        
+        //alt
+        intValue = 10;
+        System.out.println("\nPostfix: " + intValue++);
+        
+        intValue = 10;
+        System.out.println("Prefix: " + ++intValue);
     }
 }
