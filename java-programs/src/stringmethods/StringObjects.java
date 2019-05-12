@@ -1,14 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package stringmethods;
 
-/**
- *
- * @author iit
- */
 public class StringObjects {
     
+    public String type;
+    
+    public static void main(String[] args){
+        String item = new String("Shirt");
+        StringObjects item2 = new StringObjects();
+        item2.type = "shoe";
+        item2.displayItem();
+    }
+    
+    private void displayItem(){
+        System.out.println("This is a " + this.type);
+    }
 }
