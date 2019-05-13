@@ -21,6 +21,6 @@ public class ConcatenateString {
         System.out.println(description.toUpperCase());
         
         System.out.println(s.charAt(4));
-        System.out.println(s.getBytes());
+        System.out.println(s.getBytes()); //didnt work
     }
 }
