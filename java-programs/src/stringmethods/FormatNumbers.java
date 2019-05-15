@@ -5,7 +5,9 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 public class FormatNumbers {
+    
     public static void main(String[] args){
+        
         double doubleValue = 123_456_78.89;
         NumberFormat numberFormat = NumberFormat.getNumberInstance();
         System.out.println(numberFormat.format(doubleValue));
@@ -32,7 +34,6 @@ public class FormatNumbers {
         
         DecimalFormat df2 = new DecimalFormat("$##0.00#");
         System.out.println(df2.format(1));
-        System.out.println(df2.format(5.891));
-        
+        System.out.println(df2.format(5.891));  
     }
 }
