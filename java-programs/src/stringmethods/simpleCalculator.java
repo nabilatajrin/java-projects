@@ -1,14 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package stringmethods;
 
-/**
- *
- * @author iit
- */
+import java.util.Scanner;
+
 public class simpleCalculator {
-    
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        
+        System.out.print("Enter a numeric value: ");
+        String input1 = sc.nextLine();
+        double d1 = Double.parseDouble(input1);
+        
+        System.out.print("Enter a numeric value: ");
+        String input2 = sc.nextLine();
+        double d2 = Double.parseDouble(input2);
+        
+        double result = d1 + d2;
+        System.out.println("Result: " + result);
+    }
 }
