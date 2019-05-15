@@ -24,7 +24,5 @@ public class ParseStringValues {
         
         double d2 = Double.parseDouble(s);
         System.out.println(d2);
-        
-        
     }
 }
