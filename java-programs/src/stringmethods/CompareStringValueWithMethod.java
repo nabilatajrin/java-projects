@@ -40,6 +40,7 @@ public class CompareStringValueWithMethod {
             System.out.println("They don't match..");
         }
         
-        
+        //don't use "==" sign to compare strings, it sometimes work, 
+        //sometimes doesn't work. equals method always works for string
     }
 }
