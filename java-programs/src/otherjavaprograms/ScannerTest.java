@@ -20,7 +20,7 @@ public class ScannerTest {
         System.out.println("Contains: " + userInput.contains("Enter"));
         System.out.println("Contains: " + userInput.contains("nter"));
         
-        System.out.println("Type a number: ");
+        System.out.println("Type a number: "); //err if type string
         int userNumber = sc.nextInt();
         System.out.println(userNumber);
         double userNumber2 = sc.nextDouble();
