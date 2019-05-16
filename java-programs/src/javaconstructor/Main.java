@@ -1,4 +1,4 @@
-package javavariables;
+package javaconstructor;
 
 import java.awt.Color;
 
@@ -20,5 +20,10 @@ public class Main {
         System.out.println("New paint color: " + myCar.paintColor);
         myCar.changePaintColor(Color.red);
         System.out.println("New paint color: " + myCar.paintColor);
+        
+        //call by value
+        double myCarSpeed = 50;
+        myCar.speedingUp(myCarSpeed);
+        System.out.println("after speeding up: " + myCarSpeed);
     }
 }
