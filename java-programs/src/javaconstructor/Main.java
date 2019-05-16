@@ -25,5 +25,12 @@ public class Main {
         double myCarSpeed = 50;
         myCar.speedingUp(myCarSpeed);
         System.out.println("after speeding up: " + myCarSpeed);
+        //does nothing bcause java is called by value
+        
+        //change the value when speeding up
+        double myCarSpeed2 = 50;
+        //changing the value with that function call
+        myCarSpeed2 = myCar.speedingUp2(myCarSpeed);
+        System.out.println("after speeding up: " + myCarSpeed);
     }
 }

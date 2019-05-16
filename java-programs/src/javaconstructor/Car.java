@@ -33,4 +33,10 @@ public class Car {
         //function would be unaffected, and this function would essentially do
         //nothing.
     }
+    
+    //to change the value by this method when speeding up
+    public double speedingUp2(double currentSpeed){
+        currentSpeed += 100;
+        return currentSpeed;
+    }
 }
